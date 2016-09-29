@@ -7,15 +7,38 @@ public class CameraFollow : MonoBehaviour {
     Vector3 offset;
     public float rotationSpeed = 30f;
     Vector3 distance;
-
-	// Use this for initialization
-	void Start () {
+    public Camera cam;
+    public Material transparent;
+    public Material solid;
+    private Renderer wall;
+    // Use this for initialization
+    void Start () {
 	    offset = new Vector3(0f, 5f, -9f);
         gameObject.transform.position = player.position + offset; 
     }
 	
 	// Update is called once per frame
 	void Update () {
+
+
+        Vector3 screenpos = cam.WorldToScreenPoint(player.transform.position);
+        RaycastHit hit;
+        Ray ray = cam.ScreenPointToRay(screenpos);
+
+        if (Physics.Raycast(ray, out hit))
+        {
+            Transform objectHit = hit.transform;
+            if (objectHit.tag != "Player")
+            {
+                wall = objectHit.GetComponent<Renderer>();
+                wall.material = transparent;
+            }
+            else
+            {
+                wall.material = solid;
+            }            
+        }
+
         distance = player.position - gameObject.transform.position;
         print(distance.magnitude);
         Vector3 input = Vector3.zero;
