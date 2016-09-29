@@ -16,6 +16,7 @@ public class character_Movement : MonoBehaviour {
     Vector3 normal;
     bool onWall = false;
 
+
 	// Use this for initialization
 	void Start () {
 	
@@ -53,6 +54,7 @@ public class character_Movement : MonoBehaviour {
 
         verticalVelocity = verticalVelocity - GravityStrenght * Time.deltaTime;
         
+        
 
         if (Input.GetButtonDown("Jump"))
         {
@@ -61,7 +63,7 @@ public class character_Movement : MonoBehaviour {
                 Vector3 reflection = Vector3.Reflect(velocity, normal);
                 Vector3 projected = Vector3.ProjectOnPlane(reflection, Vector3.up);
                 groundedVelocity = projected.normalized * groundSpeed + normal * AerialSpeed;
-            }    
+            }
             if (canJump)
                 verticalVelocity += jumpSpeed;
         }
@@ -101,6 +103,13 @@ public class character_Movement : MonoBehaviour {
 	}
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
-       normal = hit.normal;   
+       normal = hit.normal;
+        if(normal.y < 0.75f)
+        {
+            print(normal);
+            myController.Move(hit.normal * Time.deltaTime);
+        }
+        
     }
+    
 }

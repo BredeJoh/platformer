@@ -33,7 +33,7 @@ public class CameraFollow : MonoBehaviour {
                 wall = objectHit.GetComponent<Renderer>();
                 wall.material = transparent;
             }
-            else
+            else if (wall != null)
             {
                 wall.material = solid;
             }            
